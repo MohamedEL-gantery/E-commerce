@@ -10,6 +10,8 @@ const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
 const compression = require('compression');
 
+const globalErrorHandler = require('./Controllers/errorController');
+const AppError = require('./utils/appError');
 const userRouter = require('./routes/userRoutes');
 const categoryRouter = require('./routes/categoryRoutes');
 const subcategoryRoute = require('./routes/subcategoryRoute');
@@ -51,11 +53,10 @@ app.use(mongoSanitize());
 app.use(xss());
 
 // Prevent parameter pollution
-app.use(
-  hpp(/*{
+/*{
     whitelist: ['ratingsQuantity', 'ratingsAverage', 'price'],
-  }*/)
-);
+  }*/
+app.use(hpp());
 
 app.use(compression());
 
@@ -70,5 +71,14 @@ app.use('/api/v1/subcategories', subcategoryRoute);
 app.use('/api/v1/brands', brandRoutes);
 app.use('/api/v1/products', productRouter);
 app.use('/api/v1/reviews', reviewRouter);
+
+app.all('*', (req, res, next) => {
+  return next(
+    new AppError(`Cant find ${req.originalUrl} on this server `, 404)
+  );
+});
+
+// Global error handling middleware for express
+app.use(globalErrorHandler);
 
 module.exports = app;
