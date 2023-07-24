@@ -54,28 +54,26 @@ exports.createProduct = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.getAllProducts = asyncHandler(
-  async (req, res, modelName = 'Products', next) => {
-    const documentCount = await Product.countDocuments();
+exports.getAllProducts = asyncHandler(async (req, res, next) => {
+  const documentCount = await Product.countDocuments();
 
-    const features = new ApiFeatures(Product.find(), req.query)
-      .filter()
-      .limitFields()
-      .sort()
-      .search(modelName)
-      .paginate(documentCount);
+  const features = new ApiFeatures(Product.find(), req.query)
+    .filter()
+    .limitFields()
+    .sort()
+    .search('Products')
+    .paginate(documentCount);
 
-    const { query, paginationResult } = features;
-    const product = await query;
+  const { query, paginationResult } = features;
+  const product = await query;
 
-    res.status(200).json({
-      status: 'success',
-      results: product.length,
-      paginationResult,
-      data: { product },
-    });
-  }
-);
+  res.status(200).json({
+    status: 'success',
+    results: product.length,
+    paginationResult,
+    data: { product },
+  });
+});
 
 exports.getOneProduct = asyncHandler(async (req, res, next) => {
   const product = await Product.findById(req.params.id).populate('reviews');

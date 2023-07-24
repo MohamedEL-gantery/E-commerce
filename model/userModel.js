@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
     required: [true, 'User must have a Email'],
     unique: true,
     lowercase: true,
-    validate: [validator.isEmail, 'Please Enter A Vaild Email'],
+    validate: [validator.isEmail, 'PleaseProvide A Vaild Email'],
   },
   password: {
     type: String,
@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
   },
   passwordConfirm: {
     type: String,
-    required: [true, 'Please Enter A Vaild Password Confirm'],
+    required: [true, 'Please Provide A Vaild Password Confirm'],
     // This only works on create and SAVE !!!
     validate: {
       validator: function (val) {
@@ -38,8 +38,7 @@ const userSchema = new mongoose.Schema({
   },
   phone: {
     type: String,
-    maxlength: 11,
-    validate: [validator.isMobilePhone, 'Please Enter A Vaild Phone'],
+    validate: [validator.isMobilePhone, 'Please Provide A Vaild Phone'],
   },
   photo: {
     type: String,
@@ -50,6 +49,7 @@ const userSchema = new mongoose.Schema({
   },
   birthDate: {
     type: Date,
+    validate: [validator.isDate, 'Please Provide A Valid BirthDate'],
   },
   location: {
     type: String,
@@ -58,7 +58,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: {
       values: ['male', 'female'],
-      message: 'Gender is Male , Female',
+      message: 'Gender must be Male or Female',
     },
   },
   role: {
@@ -66,15 +66,34 @@ const userSchema = new mongoose.Schema({
     enum: ['user', 'admin', 'manager'],
     default: 'user',
   },
-  passwordChangedAt: Date,
-  passwordResetExpires: Date,
-  passwordResetCode: String,
-  passwordResetVerified: Boolean,
+  wishlist: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Product',
+    },
+  ],
+  addresses: [
+    {
+      id: { type: mongoose.Schema.Types.ObjectId },
+      alias: String,
+      details: String,
+      phone: {
+        type: String,
+        validate: [validator.isMobilePhone, 'Please Provide A Vaild Phone'],
+      },
+      city: String,
+      postalCode: String,
+    },
+  ],
   active: {
     type: Boolean,
     default: true,
     select: false,
   },
+  passwordChangedAt: Date,
+  passwordResetExpires: Date,
+  passwordResetCode: String,
+  passwordResetVerified: Boolean,
 });
 
 userSchema.pre('save', async function (next) {

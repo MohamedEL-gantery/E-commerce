@@ -60,7 +60,7 @@ exports.createReview = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.getAllReviews = asyncHandler(async (req, res, modelName = '', next) => {
+exports.getAllReviews = asyncHandler(async (req, res, next) => {
   // To allow for nested GET reviews on product (hack)
   let filter = {};
   if (req.params.productId) filter = { product: req.params.productId };
@@ -69,7 +69,7 @@ exports.getAllReviews = asyncHandler(async (req, res, modelName = '', next) => {
   const features = new ApiFeatures(Review.find(filter), req.query)
     .filter()
     .limitFields()
-    .search(modelName)
+    .search()
     .sort()
     .paginate(documentCount);
 
@@ -104,11 +104,10 @@ exports.updateReview = asyncHandler(async (req, res, next) => {
   if (!review) {
     return next(new ApiError('No review with id', 404));
   }
-
   if (req.user.id != review.user.id) {
     return next(
       new ApiError(
-        'You do not have permission to perform this action only for owner of review',
+        'You do not have permission to perform this action only for owner of review and admin   ',
         401
       )
     );
@@ -133,10 +132,13 @@ exports.deleteReview = asyncHandler(async (req, res, next) => {
     return next(new ApiError('No review with id', 404));
   }
 
-  if (req.user.id != review.user.id) {
+  if (
+    req.user.role !== 'admin' ||
+    ('manager' && req.user.id != review.user.id)
+  ) {
     return next(
       new ApiError(
-        'You do not have permission to perform this action only for owner of review',
+        'You do not have permission to perform this action only for owner of review and admin',
         401
       )
     );

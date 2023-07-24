@@ -10,14 +10,16 @@ const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
 const compression = require('compression');
 
-const globalErrorHandler = require('./Controllers/errorController');
+const globalErrorHandler = require('./controllers/errorController');
 const AppError = require('./utils/appError');
 const userRouter = require('./routes/userRoutes');
 const categoryRouter = require('./routes/categoryRoutes');
-const subcategoryRoute = require('./routes/subcategoryRoute');
+const subcategoryRoute = require('./routes/subcategoryRoutes');
 const brandRoutes = require('./routes/brandRoutes');
 const productRouter = require('./routes/productRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
+const wishlistRouter = require('./routes/wishlistRoutes');
+const addressRouter = require('./routes/addressRoutes');
 
 const app = express();
 
@@ -53,10 +55,11 @@ app.use(mongoSanitize());
 app.use(xss());
 
 // Prevent parameter pollution
-/*{
-    whitelist: ['ratingsQuantity', 'ratingsAverage', 'price'],
-  }*/
-app.use(hpp());
+app.use(
+  hpp({
+    whitelist: ['ratingsQuantity', 'ratingsAverage', 'price', 'priceDiscount'],
+  })
+);
 
 app.use(compression());
 
@@ -71,6 +74,8 @@ app.use('/api/v1/subcategories', subcategoryRoute);
 app.use('/api/v1/brands', brandRoutes);
 app.use('/api/v1/products', productRouter);
 app.use('/api/v1/reviews', reviewRouter);
+app.use('/api/v1/wishlist', wishlistRouter);
+app.use('/api/v1/addresses', addressRouter);
 
 app.all('*', (req, res, next) => {
   return next(

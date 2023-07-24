@@ -1,6 +1,6 @@
 const express = require('express');
-const authController = require('../controller/authController');
-const subCategoryConroller = require('../controller/subCategoryConroller');
+const authController = require('../controllers/authController');
+const subCategoryConroller = require('../controllers/subCategoryConroller');
 
 const router = express.Router({ mergeParams: true });
 

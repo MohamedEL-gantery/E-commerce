@@ -33,14 +33,14 @@ exports.createBrand = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.getAllBrand = asyncHandler(async (req, res, modelName = '', next) => {
+exports.getAllBrand = asyncHandler(async (req, res, next) => {
   const documentCount = await Brand.countDocuments();
 
   const features = new ApiFeatures(Brand.find(), req.query)
     .filter()
     .limitFields()
     .sort()
-    .search(modelName)
+    .search()
     .paginate(documentCount);
 
   const { query, paginationResult } = features;

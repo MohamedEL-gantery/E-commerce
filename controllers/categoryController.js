@@ -33,28 +33,26 @@ exports.createCategory = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.getAllCategory = asyncHandler(
-  async (req, res, modelName = '', next) => {
-    const documentCount = await Category.countDocuments();
+exports.getAllCategory = asyncHandler(async (req, res, next) => {
+  const documentCount = await Category.countDocuments();
 
-    const features = new ApiFeatures(Category.find(), req.query)
-      .filter()
-      .limitFields()
-      .sort()
-      .search(modelName)
-      .paginate(documentCount);
+  const features = new ApiFeatures(Category.find(), req.query)
+    .filter()
+    .limitFields()
+    .sort()
+    .search()
+    .paginate(documentCount);
 
-    const { query, paginationResult } = features;
-    const category = await query;
+  const { query, paginationResult } = features;
+  const category = await query;
 
-    res.status(200).json({
-      status: 'success',
-      results: category.length,
-      paginationResult,
-      data: { category },
-    });
-  }
-);
+  res.status(200).json({
+    status: 'success',
+    results: category.length,
+    paginationResult,
+    data: { category },
+  });
+});
 
 exports.getOneCategory = asyncHandler(async (req, res, next) => {
   const category = await Category.findById(req.params.id);
