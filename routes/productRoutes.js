@@ -9,32 +9,29 @@ const router = express.Router();
 // GET /product/234fad4/reviews
 router.use('/:productId/reviews', reviewRouter);
 
-router.get('/allproductds', productController.getAllProducts);
+router
+  .route('/')
+  .post(
+    authController.protect,
+    authController.restrictTo('admin', 'manager'),
+    productController.uploadProductPhoto,
+    productController.resizeProductPhoto,
+    productController.createProduct
+  )
+  .get(productController.getAllProducts);
 
-router.get('/:id', authController.protect, productController.getOneProduct);
-
-router.post(
-  '/',
-  authController.protect,
-  authController.restrictTo('admin', 'manager'),
-  productController.uploadProductPhoto,
-  productController.resizeProductPhoto,
-  productController.createProduct
-);
+// Protect all routes after this middleware
+router.use(authController.protect);
 
 router
   .route('/:id')
+  .get(productController.getOneProduct)
   .patch(
-    authController.protect,
     authController.restrictTo('admin', 'manager'),
     productController.uploadProductPhoto,
     productController.resizeProductPhoto,
     productController.updateProduct
   )
-  .delete(
-    authController.protect,
-    authController.restrictTo('admin'),
-    productController.deleteProduct
-  );
+  .delete(authController.restrictTo('admin'), productController.deleteProduct);
 
 module.exports = router;

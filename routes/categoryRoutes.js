@@ -18,18 +18,19 @@ router
   )
   .get(categoryController.getAllCategory);
 
+// Protect all routes after this middleware
+router.use(authController.protect);
+
 router
   .route('/:id')
-  .get(authController.protect, categoryController.getOneCategory)
+  .get(categoryController.getOneCategory)
   .patch(
-    authController.protect,
     authController.restrictTo('admin', 'manager'),
     categoryController.uploadCategoryImage,
     categoryController.resizeImage,
     categoryController.updateCategory
   )
   .delete(
-    authController.protect,
     authController.restrictTo('admin'),
     categoryController.deleteCategory
   );

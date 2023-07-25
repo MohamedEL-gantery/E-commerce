@@ -118,6 +118,9 @@ exports.updateReview = asyncHandler(async (req, res, next) => {
     runValidators: true,
   });
 
+  // Trigger "save" event when update document
+  review.save();
+
   res.status(200).json({
     status: 'success',
     data: { review },
@@ -131,20 +134,19 @@ exports.deleteReview = asyncHandler(async (req, res, next) => {
   if (!review) {
     return next(new ApiError('No review with id', 404));
   }
-
-  if (
-    req.user.role !== 'admin' ||
-    ('manager' && req.user.id != review.user.id)
-  ) {
+  if (req.user.role !== 'admin' && req.user.id !== review.user.id) {
     return next(
       new ApiError(
-        'You do not have permission to perform this action only for owner of review and admin',
+        'You do not have permission to perform this action. Only the owner of the review, admin, or manager can change this review.',
         401
       )
     );
   }
 
   review = await Review.findByIdAndDelete(req.params.id);
+
+  // Trigger "remove" event when update document
+  review.remove();
 
   res.status(204).json({
     status: 'success',

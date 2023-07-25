@@ -13,16 +13,17 @@ router
   )
   .get(subCategoryConroller.getAllSubCategory);
 
+// Protect all routes after this middleware
+router.use(authController.protect);
+
 router
   .route('/:id')
-  .get(authController.protect, subCategoryConroller.getOneSubCategory)
+  .get(subCategoryConroller.getOneSubCategory)
   .patch(
-    authController.protect,
     authController.restrictTo('admin', 'manager'),
     subCategoryConroller.updateSubCategory
   )
   .delete(
-    authController.protect,
     authController.restrictTo('admin'),
     subCategoryConroller.deleteSubCategory
   );

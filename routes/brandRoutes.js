@@ -15,20 +15,18 @@ router
   )
   .get(brandConroller.getAllBrand);
 
+// Protect all routes after this middleware
+router.use(authController.protect);
+
 router
   .route('/:id')
-  .get(authController.protect, brandConroller.getOneBrand)
+  .get(brandConroller.getOneBrand)
   .patch(
-    authController.protect,
     authController.restrictTo('admin', 'manager'),
     brandConroller.uploadBrandImage,
     brandConroller.resizeImage,
     brandConroller.updateBrand
   )
-  .delete(
-    authController.protect,
-    authController.restrictTo('admin'),
-    brandConroller.deleteBrand
-  );
+  .delete(authController.restrictTo('admin'), brandConroller.deleteBrand);
 
 module.exports = router;

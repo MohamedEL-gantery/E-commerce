@@ -79,6 +79,8 @@ const productSchema = new mongoose.Schema(
   }
 );
 
+productSchema.index({ price: 1, ratingsAverage: -1 });
+
 productSchema.virtual('reviews', {
   ref: 'Review',
   foreignField: 'product',

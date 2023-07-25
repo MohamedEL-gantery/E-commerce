@@ -12,21 +12,20 @@ const compression = require('compression');
 
 const globalErrorHandler = require('./controllers/errorController');
 const AppError = require('./utils/appError');
-const userRouter = require('./routes/userRoutes');
-const categoryRouter = require('./routes/categoryRoutes');
-const subcategoryRoute = require('./routes/subcategoryRoutes');
-const brandRoutes = require('./routes/brandRoutes');
-const productRouter = require('./routes/productRoutes');
-const reviewRouter = require('./routes/reviewRoutes');
-const wishlistRouter = require('./routes/wishlistRoutes');
-const addressRouter = require('./routes/addressRoutes');
+// Routes
+const mountRoutes = require('./routes');
 
 const app = express();
 
 app.use(cors());
 app.options('*', cors());
+
+// compress all responses
+app.use(compression());
+
 // Set security HTTP headers
 app.use(helmet());
+
 // Limit requests from same API
 const limiter = rateLimit({
   max: 100,
@@ -57,25 +56,23 @@ app.use(xss());
 // Prevent parameter pollution
 app.use(
   hpp({
-    whitelist: ['ratingsQuantity', 'ratingsAverage', 'price', 'priceDiscount'],
+    whitelist: [
+      'price',
+      'sold',
+      'quantity',
+      'ratingsAverage',
+      'ratingsQuantity',
+    ],
   })
 );
-
-app.use(compression());
 
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
   next();
 });
 
-app.use('/api/v1/users', userRouter);
-app.use('/api/v1/categories', categoryRouter);
-app.use('/api/v1/subcategories', subcategoryRoute);
-app.use('/api/v1/brands', brandRoutes);
-app.use('/api/v1/products', productRouter);
-app.use('/api/v1/reviews', reviewRouter);
-app.use('/api/v1/wishlist', wishlistRouter);
-app.use('/api/v1/addresses', addressRouter);
+// Mount Routes
+mountRoutes(app);
 
 app.all('*', (req, res, next) => {
   return next(

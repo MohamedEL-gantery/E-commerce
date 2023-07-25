@@ -32,6 +32,8 @@ const reviewSchema = new mongoose.Schema(
   }
 );
 
+reviewSchema.index({ product: 1, user: 1 }, { unique: true });
+
 reviewSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'user',
@@ -66,22 +68,13 @@ reviewSchema.statics.calcAverageRatings = async function (productId) {
   }
 };
 
-reviewSchema.post('save', function () {
+reviewSchema.post('save', async function () {
   // this point to current review
-  this.constructor.calcAverageRatings(this.product);
+  await this.constructor.calcAverageRatings(this.product);
 });
 
-// findbyIdAndUpdate
-// findByIdAndDelete
-reviewSchema.pre(/^findOneAnd/, async function (next) {
-  this.r = await this.findOne();
-
-  next();
-});
-
-reviewSchema.post(/^findOneAnd/, async function () {
-  // await this.findOne(); does NOT work here, query has already executed
-  await this.r.constructor.calcAverageRatings(this.r.product);
+reviewSchema.post('remove', async function () {
+  await this.constructor.calcAverageRatings(this.product);
 });
 
 const Review = mongoose.model('Review', reviewSchema);
