@@ -29,7 +29,7 @@ exports.createBrand = asyncHandler(async (req, res, next) => {
 
   res.status(201).json({
     status: 'success',
-    data: { newBrand },
+    data: newBrand,
   });
 });
 
@@ -50,7 +50,7 @@ exports.getAllBrand = asyncHandler(async (req, res, next) => {
     status: 'success',
     results: brand.length,
     paginationResult,
-    data: { brand },
+    data: brand,
   });
 });
 
@@ -63,7 +63,7 @@ exports.getOneBrand = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
-    data: { brand },
+    data: brand,
   });
 });
 
@@ -79,7 +79,7 @@ exports.updateBrand = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
-    data: { brand },
+    data: brand,
   });
 });
 

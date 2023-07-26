@@ -56,7 +56,7 @@ exports.createProfile = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
-    data: { createProfile },
+    data: createProfile,
   });
 });
 
@@ -76,7 +76,7 @@ exports.getAllUser = asyncHandler(async (req, res, next) => {
     status: 'success',
     results: allUser.length,
     paginationResult,
-    data: { allUser },
+    data: allUser,
   });
 });
 
@@ -89,7 +89,7 @@ exports.getOne = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
-    data: { user },
+    data: user,
   });
 });
 
@@ -116,7 +116,7 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
-    data: { updateUser },
+    data: updateUser,
   });
 });
 

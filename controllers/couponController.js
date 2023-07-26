@@ -8,7 +8,7 @@ exports.createCoupon = asyncHandler(async (req, res, next) => {
 
   res.status(201).json({
     status: 'success',
-    data: { newCoupon },
+    data: newCoupon,
   });
 });
 
@@ -29,7 +29,7 @@ exports.getAllCoupon = asyncHandler(async (req, res, next) => {
     status: 'success',
     results: coupon.length,
     paginationResult,
-    data: { coupon },
+    data: coupon,
   });
 });
 
@@ -42,7 +42,7 @@ exports.getOneCoupon = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
-    data: { coupon },
+    data: coupon,
   });
 });
 
@@ -58,7 +58,7 @@ exports.updateCoupon = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
-    data: { coupon },
+    data: coupon,
   });
 });
 

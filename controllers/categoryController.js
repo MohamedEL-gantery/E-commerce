@@ -29,7 +29,7 @@ exports.createCategory = asyncHandler(async (req, res, next) => {
 
   res.status(201).json({
     status: 'success',
-    data: { newCategory },
+    data: newCategory,
   });
 });
 
@@ -50,7 +50,7 @@ exports.getAllCategory = asyncHandler(async (req, res, next) => {
     status: 'success',
     results: category.length,
     paginationResult,
-    data: { category },
+    data: category,
   });
 });
 
@@ -63,7 +63,7 @@ exports.getOneCategory = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
-    data: { category },
+    data: category,
   });
 });
 
@@ -79,7 +79,7 @@ exports.updateCategory = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
-    data: { category },
+    data: category,
   });
 });
 

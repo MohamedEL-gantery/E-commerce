@@ -10,7 +10,7 @@ exports.createSubCategory = asyncHandler(async (req, res, next) => {
 
   res.status(201).json({
     status: 'success',
-    data: { newSubCategory },
+    data: newSubCategory,
   });
 });
 
@@ -34,7 +34,7 @@ exports.getAllSubCategory = asyncHandler(async (req, res, next) => {
     status: 'success',
     results: subCategory.length,
     paginationResult,
-    data: { subCategory },
+    data: subCategory,
   });
 });
 
@@ -47,7 +47,7 @@ exports.getOneSubCategory = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
-    data: { subCategory },
+    data: subCategory,
   });
 });
 
@@ -67,7 +67,7 @@ exports.updateSubCategory = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
-    data: { subCategory },
+    data: subCategory,
   });
 });
 

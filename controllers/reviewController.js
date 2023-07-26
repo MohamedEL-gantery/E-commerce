@@ -56,7 +56,7 @@ exports.createReview = asyncHandler(async (req, res, next) => {
 
   res.status(201).json({
     status: 'success',
-    data: { newReview },
+    data: newReview,
   });
 });
 
@@ -80,7 +80,7 @@ exports.getAllReviews = asyncHandler(async (req, res, next) => {
     status: 'success',
     results: review.length,
     paginationResult,
-    data: { review },
+    data: review,
   });
 });
 
@@ -93,7 +93,7 @@ exports.getReview = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
-    data: { review },
+    data: review,
   });
 });
 
@@ -123,7 +123,7 @@ exports.updateReview = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
-    data: { review },
+    data: review,
   });
 });
 
