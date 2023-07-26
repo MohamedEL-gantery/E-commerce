@@ -84,7 +84,7 @@ exports.getOne = asyncHandler(async (req, res, next) => {
   const user = await User.findById(req.params.id);
 
   if (!user) {
-    return next(new ApiError('No user found with id', 404));
+    return next(new ApiError('No user found for this id', 404));
   }
 
   res.status(200).json({
@@ -111,7 +111,7 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
   });
 
   if (!updateUser) {
-    return next(new ApiError('No user found with id', 404));
+    return next(new ApiError('No user found for this id', 404));
   }
 
   res.status(200).json({
@@ -133,7 +133,7 @@ exports.deleteOne = asyncHandler(async (req, res, next) => {
   const data = await User.findByIdAndDelete(req.params.id);
 
   if (!data) {
-    return next(new ApiError('No user found with id', 404));
+    return next(new ApiError('No user found for this id', 404));
   }
 
   res.status(204).json({

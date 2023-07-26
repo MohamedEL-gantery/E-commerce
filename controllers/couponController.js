@@ -37,7 +37,7 @@ exports.getOneCoupon = asyncHandler(async (req, res, next) => {
   const coupon = await Coupon.findById(req.params.id);
 
   if (!coupon) {
-    return next(new ApiError('No coupon with id', 404));
+    return next(new ApiError('No coupon for this id', 404));
   }
 
   res.status(200).json({
@@ -53,7 +53,7 @@ exports.updateCoupon = asyncHandler(async (req, res, next) => {
   });
 
   if (!coupon) {
-    return next(new ApiError('No coupon with id', 404));
+    return next(new ApiError('No coupon for this id', 404));
   }
 
   res.status(200).json({
@@ -66,7 +66,7 @@ exports.deleteCoupon = asyncHandler(async (req, res, next) => {
   const coupon = await Coupon.findByIdAndDelete(req.params.id);
 
   if (!coupon) {
-    return next(new ApiError('No coupon with id', 404));
+    return next(new ApiError('No coupon for this id', 404));
   }
 
   res.status(204).json({

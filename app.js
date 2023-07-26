@@ -12,8 +12,7 @@ const compression = require('compression');
 
 const globalErrorHandler = require('./controllers/errorController');
 const AppError = require('./utils/appError');
-// Routes
-const mountRoutes = require('./routes');
+const routes = require('./routes');
 
 const app = express();
 
@@ -71,8 +70,8 @@ app.use((req, res, next) => {
   next();
 });
 
-// Mount Routes
-mountRoutes(app);
+// Routes
+routes(app);
 
 app.all('*', (req, res, next) => {
   return next(

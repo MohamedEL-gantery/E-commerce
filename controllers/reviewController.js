@@ -88,7 +88,7 @@ exports.getReview = asyncHandler(async (req, res, next) => {
   const review = await Review.findById(req.params.id);
 
   if (!review) {
-    return next(new ApiError('No review with id', 404));
+    return next(new ApiError('No review for this id', 404));
   }
 
   res.status(200).json({
@@ -102,7 +102,7 @@ exports.updateReview = asyncHandler(async (req, res, next) => {
   review = await Review.findById(req.params.id);
 
   if (!review) {
-    return next(new ApiError('No review with id', 404));
+    return next(new ApiError('No review for this id', 404));
   }
   if (req.user.id != review.user.id) {
     return next(
@@ -132,7 +132,7 @@ exports.deleteReview = asyncHandler(async (req, res, next) => {
   review = await Review.findById(req.params.id);
 
   if (!review) {
-    return next(new ApiError('No review with id', 404));
+    return next(new ApiError('No review for this id', 404));
   }
   if (req.user.role !== 'admin' && req.user.id !== review.user.id) {
     return next(

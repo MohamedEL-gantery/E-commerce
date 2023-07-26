@@ -58,7 +58,7 @@ exports.getOneBrand = asyncHandler(async (req, res, next) => {
   const brand = await Brand.findById(req.params.id);
 
   if (!brand) {
-    return next(new ApiError('No Brand with id', 404));
+    return next(new ApiError('No Brand for this id', 404));
   }
 
   res.status(200).json({
@@ -74,7 +74,7 @@ exports.updateBrand = asyncHandler(async (req, res, next) => {
   });
 
   if (!brand) {
-    return next(new ApiError('No Brand with id', 404));
+    return next(new ApiError('No Brand for this id', 404));
   }
 
   res.status(200).json({
@@ -87,7 +87,7 @@ exports.deleteBrand = asyncHandler(async (req, res, next) => {
   const brand = await Brand.findByIdAndDelete(req.params.id);
 
   if (!brand) {
-    return next(new ApiError('No Brand with id', 404));
+    return next(new ApiError('No Brand for this id', 404));
   }
 
   res.status(204).json({

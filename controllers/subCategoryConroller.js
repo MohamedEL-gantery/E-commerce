@@ -42,7 +42,7 @@ exports.getOneSubCategory = asyncHandler(async (req, res, next) => {
   const subCategory = await SubCategory.findById(req.params.id);
 
   if (!subCategory) {
-    return next(new ApiError('No SubCategory  with id', 404));
+    return next(new ApiError('No SubCategory for this id', 404));
   }
 
   res.status(200).json({
@@ -62,7 +62,7 @@ exports.updateSubCategory = asyncHandler(async (req, res, next) => {
   );
 
   if (!subCategory) {
-    return next(new ApiError('No SubCategory with id', 404));
+    return next(new ApiError('No SubCategory for this id', 404));
   }
 
   res.status(200).json({
@@ -75,7 +75,7 @@ exports.deleteSubCategory = asyncHandler(async (req, res, next) => {
   const subCategory = await SubCategory.findByIdAndDelete(req.params.id);
 
   if (!subCategory) {
-    return next(new ApiError('No SubCategory with id', 404));
+    return next(new ApiError('No SubCategory for this id', 404));
   }
 
   res.status(204).json({

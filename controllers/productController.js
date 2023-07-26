@@ -79,7 +79,7 @@ exports.getOneProduct = asyncHandler(async (req, res, next) => {
   const product = await Product.findById(req.params.id).populate('reviews');
 
   if (!product) {
-    return next(new ApiError('No product with id', 404));
+    return next(new ApiError('No product for this id', 404));
   }
 
   res.status(200).json({
@@ -95,7 +95,7 @@ exports.updateProduct = asyncHandler(async (req, res, next) => {
   });
 
   if (!product) {
-    return next(new ApiError('No product with id', 404));
+    return next(new ApiError('No product for this id', 404));
   }
 
   res.status(200).json({
@@ -108,7 +108,7 @@ exports.deleteProduct = asyncHandler(async (req, res, next) => {
   const product = await Product.findByIdAndDelete(req.params.id);
 
   if (!product) {
-    return next(new ApiError('No product with id', 404));
+    return next(new ApiError('No product for this id', 404));
   }
 
   res.status(204).json({
