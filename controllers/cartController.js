@@ -58,7 +58,7 @@ exports.getUserCart = asyncHandler(async (req, res, next) => {
   const cart = await Cart.findOne({ user: req.user.id });
 
   if (!cart) {
-    return next(new AppError('No cart found for this user', 404));
+    return next(new ApiError('No cart found for this user', 404));
   }
 
   res.status(200).json({
