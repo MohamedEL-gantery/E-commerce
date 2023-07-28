@@ -1,6 +1,5 @@
 const path = require('path');
 const express = require('express');
-const cors = require('cors');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
@@ -9,21 +8,32 @@ const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
 const compression = require('compression');
+const cors = require('cors');
 
-const globalErrorHandler = require('./controllers/errorController');
 const ApiError = require('./utils/appError');
+const globalErrorHandler = require('./controllers/errorController');
 const routes = require('./routes');
 
+// Start express app
 const app = express();
 
 app.use(cors());
 app.options('*', cors());
+
+// Serving static files
+app.use(express.static(path.join(__dirname, 'public')));
 
 // compress all responses
 app.use(compression());
 
 // Set security HTTP headers
 app.use(helmet());
+
+// development logging
+if (process.env.NODE_ENV === 'development') {
+  //dev env
+  app.use(morgan('dev'));
+}
 
 // Limit requests from same API
 const limiter = rateLimit({
@@ -34,17 +44,10 @@ const limiter = rateLimit({
 // Apply the reat limiting middleware to all request
 app.use('/api', limiter);
 
-app.use(express.static(path.join(__dirname, 'public')));
 // Body parser, reading data from body into req.body
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true }, { limit: '10kb' }));
 app.use(cookieParser());
-
-// development logging
-if (process.env.NODE_ENV === 'development') {
-  //dev env
-  app.use(morgan('dev'));
-}
 
 // Data sanitization against NoSQL query injection
 app.use(mongoSanitize());
@@ -74,9 +77,7 @@ app.use((req, res, next) => {
 routes(app);
 
 app.all('*', (req, res, next) => {
-  return next(
-    new ApiError(`Cant find ${req.originalUrl} on this server `, 404)
-  );
+  next(new ApiError(`Cant find ${req.originalUrl} on this server `, 404));
 });
 
 // Global error handling middleware for express
