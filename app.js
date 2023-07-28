@@ -76,9 +76,9 @@ app.use((req, res, next) => {
 // Routes
 routes(app);
 
-app.all('*', (req, res, next) => {
+/*app.all('*', (req, res, next) => {
   next(new ApiError(`Can't find ${req.originalUrl} on this server!`, 404));
-});
+});*/
 
 // Global error handling middleware for express
 app.use(globalErrorHandler);
