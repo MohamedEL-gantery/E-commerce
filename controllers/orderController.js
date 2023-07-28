@@ -6,7 +6,6 @@ const Cart = require('../model/cartModel');
 const Order = require('../model/orderModel');
 const ApiError = require('../utils/apiError');
 const ApiFeatures = require('../utils/apiFeatures');
-const { sign } = require('jsonwebtoken');
 
 exports.createCashOrder = asyncHandler(async (req, res, next) => {
   // app settings
