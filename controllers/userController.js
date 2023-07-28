@@ -1,7 +1,7 @@
 const asyncHandler = require('express-async-handler');
 const sharp = require('sharp');
 const User = require('../model/userModel');
-const ApiFeatures = require('../utils/apifeatures');
+const ApiFeatures = require('../utils/apiFeatures');
 const ApiError = require('../utils/appError');
 const uploadImageController = require('./uploadImageController');
 
