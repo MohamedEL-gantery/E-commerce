@@ -11,7 +11,7 @@ const cookieParser = require('cookie-parser');
 const compression = require('compression');
 
 const globalErrorHandler = require('./controllers/errorController');
-const AppError = require('./utils/appError');
+const ApiError = require('./utils/appError');
 const routes = require('./routes');
 
 const app = express();
@@ -75,7 +75,7 @@ routes(app);
 
 app.all('*', (req, res, next) => {
   return next(
-    new AppError(`Cant find ${req.originalUrl} on this server `, 404)
+    new ApiError(`Cant find ${req.originalUrl} on this server `, 404)
   );
 });
 
