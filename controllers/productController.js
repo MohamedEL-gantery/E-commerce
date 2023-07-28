@@ -3,7 +3,7 @@ const sharp = require('sharp');
 const asyncHandler = require('express-async-handler');
 const { v4: uuidv4 } = require('uuid');
 const Product = require('../model/productModel');
-const ApiFeatures = require('../utils/apifeatures');
+const ApiFeatures = require('../utils/apiFeatures');
 const ApiError = require('../utils/appError');
 const uploadImageController = require('./uploadImageController');
 

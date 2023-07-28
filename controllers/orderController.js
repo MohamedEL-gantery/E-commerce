@@ -4,7 +4,7 @@ const Product = require('../model/productModel');
 const Cart = require('../model/cartModel');
 const Order = require('../model/orderModel');
 const ApiError = require('../utils/appError');
-const ApiFeatures = require('../utils/apifeatures');
+const ApiFeatures = require('../utils/apiFeatures');
 
 exports.createCashOrder = asyncHandler(async (req, res, next) => {
   // app settings

@@ -1,6 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const Coupon = require('../model/couponModel');
-const ApiFeatures = require('../utils/apifeatures');
+const ApiFeatures = require('../utils/apiFeatures');
 const ApiError = require('../utils/appError');
 
 exports.createCoupon = asyncHandler(async (req, res, next) => {

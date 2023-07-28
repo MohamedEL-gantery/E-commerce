@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const asyncHandler = require('express-async-handler');
 const User = require('../model/userModel');
 const Review = require('../model/reviewModel');
-const ApiFeatures = require('../utils/apifeatures');
+const ApiFeatures = require('../utils/apiFeatures');
 const ApiError = require('../utils/appError');
 
 exports.owner = asyncHandler(async (req, res, next) => {

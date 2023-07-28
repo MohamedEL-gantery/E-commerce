@@ -1,6 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const SubCategory = require('../model/subCategoryModel');
-const ApiFeatures = require('../utils/apifeatures');
+const ApiFeatures = require('../utils/apiFeatures');
 const ApiError = require('../utils/appError');
 
 exports.createSubCategory = asyncHandler(async (req, res, next) => {
