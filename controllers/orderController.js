@@ -1,10 +1,12 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const asyncHandler = require('express-async-handler');
+const User = require('../model/userModel');
 const Product = require('../model/productModel');
 const Cart = require('../model/cartModel');
 const Order = require('../model/orderModel');
 const ApiError = require('../utils/apiError');
 const ApiFeatures = require('../utils/apiFeatures');
+const { sign } = require('jsonwebtoken');
 
 exports.createCashOrder = asyncHandler(async (req, res, next) => {
   // app settings
@@ -167,4 +169,58 @@ exports.checkoutSession = asyncHandler(async (req, res, next) => {
     status: 'success',
     session,
   });
+});
+
+const createCardOrder = async (session) => {
+  const cartId = session.client_reference_id;
+  const shippingAddress = session.metadata;
+  const orderPrice = session.amount_total / 100;
+
+  const cart = await Cart.findById(cartId);
+  const user = await User.findOne({ email: session.customer_email });
+
+  // 1) Create order with default paymentMethod card
+  const order = await Order.create({
+    user: user._id,
+    cartItems: cart.cartItems,
+    shippingAddress,
+    totalOrderPrice: orderPrice,
+    isPaid: true,
+    paidAt: Date.now(),
+    paymentMethodType: 'card',
+  });
+  // 2) After creating order, decrement product quantity, increment product sold
+  if (order) {
+    const bulkOption = cart.cartItems.map((item) => ({
+      updateOne: {
+        filter: { _id: item.product },
+        update: { $inc: { quantity: -item.product, sold: +item.quantity } },
+      },
+    }));
+
+    await Product.bulkWrite(bulkOption, {});
+
+    // 3) clear cart depend on cartID
+    await Cart.findByIdAndDelete(cartId);
+  }
+};
+
+exports.webhookCheckout = asyncHandler(async (req, res, next) => {
+  const signature = req.headers['stripe-signature'];
+
+  let event;
+  try {
+    event = stripe.webhooks.constructEvent(
+      req.body,
+      signature,
+      process.env.STRIPE_WEBHOOK_SECRET
+    );
+  } catch (err) {
+    return res.status(400).send(`Webhook error: ${err.message}`);
+  }
+
+  if (event.type === 'checkout.session.complete')
+    createCardOrder(event.data.object);
+
+  res.status(200).json({ received: true });
 });

@@ -13,6 +13,7 @@ const cors = require('cors');
 const ApiError = require('./utils/apiError');
 const globalErrorHandler = require('./controllers/errorController');
 const mountRoutes = require('./routes');
+const { webhookCheckout } = require('./controllers/orderController');
 
 // Start express app
 const app = express();
@@ -28,6 +29,13 @@ app.use(compression());
 
 // Set security HTTP headers
 app.use(helmet());
+
+// Checkout webhook
+app.post(
+  '/webhook-checkout',
+  express.raw({ type: 'application/json' }),
+  webhookCheckout
+);
 
 // development logging
 if (process.env.NODE_ENV === 'development') {
