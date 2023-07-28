@@ -194,20 +194,19 @@ const createCardOrder = async (session) => {
     const bulkOption = cart.cartItems.map((item) => ({
       updateOne: {
         filter: { _id: item.product },
-        update: { $inc: { quantity: -item.product, sold: +item.quantity } },
+        update: { $inc: { quantity: -item.quantity, sold: +item.quantity } },
       },
     }));
 
     await Product.bulkWrite(bulkOption, {});
 
-    // 3) clear cart depend on cartID
+    // 3) Clear cart depend on cartId
     await Cart.findByIdAndDelete(cartId);
   }
 };
 
 exports.webhookCheckout = asyncHandler(async (req, res, next) => {
   const signature = req.headers['stripe-signature'];
-
   let event;
   try {
     event = stripe.webhooks.constructEvent(
@@ -219,8 +218,10 @@ exports.webhookCheckout = asyncHandler(async (req, res, next) => {
     return res.status(400).send(`Webhook error: ${err.message}`);
   }
 
-  if (event.type === 'checkout.session.complete')
+  if (event.type === 'checkout.session.completed') {
+    //  Create order
     createCardOrder(event.data.object);
+  }
 
   res.status(200).json({ received: true });
 });
