@@ -18,32 +18,65 @@ const calcTotalCartPrice = (cart) => {
 
 exports.addProductToCart = asyncHandler(async (req, res, next) => {
   const { productId, color } = req.body;
+
   const product = await Product.findById(productId);
-  // 1) Get Cart for logged user
+
+  // 1) Check if the product quantity is greater than 0
+  if (product.quantity <= 0) {
+    return next(new ApiError('The product is out of stock', 400));
+  }
+
+  /*// 2) Check if the chosen color exists in the product
+  if (!product.colors.some((c) => c.color === color)) {
+    return next(
+      new ApiError('The chosen color is not available for this product', 400)
+    );
+  }
+  
+   // Check if the number of product quantity is less than or equal to the number of product quantity in stock
+      if (product.quantity < 0) {
+        return next(new ApiError('The product is out of stock', 400));
+      }
+  */
+
+  //  3) Get Cart for logged user
   let cart = await Cart.findOne({ user: req.user.id });
 
   if (!cart) {
-    // create cart fot logged user with product
+    // 4) create cart for logged user with product
     cart = await Cart.create({
       user: req.user.id,
       cartItems: [{ product: productId, color, price: product.price }],
     });
   } else {
-    // product exist in cart, update product quantity
+    // 5) product exist in cart, update product quantity
     const productIndex = cart.cartItems.findIndex(
       (item) => item.product.toString() === productId && item.color === color
     );
+
     if (productIndex > -1) {
+      //  Check if the number of product quantity is less than or equal to the number of product quantity in stock
       const cartItem = cart.cartItems[productIndex];
+      if (product.quantity < cartItem.quantity + 1) {
+        return next(
+          new ApiError(`The quantity of ${product.name} is not available`, 400)
+        );
+      }
       cartItem.quantity += 1;
       cart.cartItems[productIndex] = cartItem;
     } else {
-      // product not exist in cart,  push product to cartItems array
-      cart.cartItems.push({ product: productId, color, price: product.price });
+      // 6) product not exist in cart, push product to cartItems array
+      cart.cartItems.push({
+        product: productId,
+        color,
+        price: product.price,
+      });
     }
   }
-  // Calculate total cart price
+
+  // 6) Calculate total cart price
   calcTotalCartPrice(cart);
+
   await cart.save();
 
   res.status(200).json({
@@ -104,7 +137,7 @@ exports.updateCartItemQuantity = asyncHandler(async (req, res, next) => {
   const cart = await Cart.findOne({ user: req.user.id });
 
   if (!cart) {
-    return next(new AppError('No cart found for this user', 404));
+    return next(new ApiError('No cart found for this user', 404));
   }
 
   const itemIndex = cart.cartItems.findIndex(
@@ -113,13 +146,21 @@ exports.updateCartItemQuantity = asyncHandler(async (req, res, next) => {
 
   if (itemIndex > -1) {
     const cartItem = cart.cartItems[itemIndex];
+    const product = await Product.findById(cartItem.product);
+    // Check if the requested quantity is valid and available
+    if (product.quantity < quantity || quantity < 0) {
+      return next(
+        new ApiError(`The quantity of ${product.name} is not available`, 400)
+      );
+    }
     cartItem.quantity = quantity;
     cart.cartItems[itemIndex] = cartItem;
   } else {
-    return next(new ApiError('No item found for this id ', 404));
+    return next(new ApiError('No cart found for this id', 404));
   }
 
   calcTotalCartPrice(cart);
+
   await cart.save();
 
   res.status(200).json({

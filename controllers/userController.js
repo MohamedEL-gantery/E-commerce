@@ -114,6 +114,8 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
     return next(new ApiError('No user found for this id', 404));
   }
 
+  await updateUser.save();
+
   res.status(200).json({
     status: 'success',
     data: updateUser,

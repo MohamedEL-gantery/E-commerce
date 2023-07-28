@@ -107,7 +107,7 @@ exports.updateReview = asyncHandler(async (req, res, next) => {
   if (req.user.id != review.user.id) {
     return next(
       new ApiError(
-        'You do not have permission to perform this action only for owner of review and admin   ',
+        'You do not have permission to perform this action only for owner of review',
         401
       )
     );

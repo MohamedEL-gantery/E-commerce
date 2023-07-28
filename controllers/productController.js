@@ -98,6 +98,8 @@ exports.updateProduct = asyncHandler(async (req, res, next) => {
     return next(new ApiError('No product for this id', 404));
   }
 
+  await product.save();
+
   res.status(200).json({
     status: 'success',
     data: product,

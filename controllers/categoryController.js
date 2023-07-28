@@ -77,6 +77,8 @@ exports.updateCategory = asyncHandler(async (req, res, next) => {
     return next(new ApiError('No Category for this id', 404));
   }
 
+  await category.save();
+
   res.status(200).json({
     status: 'success',
     data: category,

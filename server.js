@@ -17,6 +17,7 @@ const DB = process.env.DATABASE.replace(
 );
 
 mongoose
+  .set('strictQuery', false)
   .connect(DB)
   .then((conn) =>
     console.log(`DB connection successful ! :${conn.connection.host}`)

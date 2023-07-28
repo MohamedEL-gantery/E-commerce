@@ -77,6 +77,8 @@ exports.updateBrand = asyncHandler(async (req, res, next) => {
     return next(new ApiError('No Brand for this id', 404));
   }
 
+  await brand.save();
+
   res.status(200).json({
     status: 'success',
     data: brand,

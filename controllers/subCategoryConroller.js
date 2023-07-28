@@ -65,6 +65,8 @@ exports.updateSubCategory = asyncHandler(async (req, res, next) => {
     return next(new ApiError('No SubCategory for this id', 404));
   }
 
+  await subCategory.save();
+
   res.status(200).json({
     status: 'success',
     data: subCategory,
