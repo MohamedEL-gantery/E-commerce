@@ -2,7 +2,7 @@ const asyncHandler = require('express-async-handler');
 const sharp = require('sharp');
 const User = require('../model/userModel');
 const ApiFeatures = require('../utils/apiFeatures');
-const ApiError = require('../utils/appError');
+const ApiError = require('../utils/apiError');
 const uploadImageController = require('./uploadImageController');
 
 exports.getme = (req, res, next) => {

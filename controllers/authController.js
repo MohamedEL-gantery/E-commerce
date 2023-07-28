@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const asyncHandler = require('express-async-handler');
 const User = require('../model/userModel');
 const sendEmail = require('../utils/sendEmail');
-const ApiError = require('../utils/appError');
+const ApiError = require('../utils/apiError');
 
 const singToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {

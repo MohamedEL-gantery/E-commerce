@@ -10,9 +10,9 @@ const cookieParser = require('cookie-parser');
 const compression = require('compression');
 const cors = require('cors');
 
-const ApiError = require('./utils/appError');
+const ApiError = require('./utils/apiError');
 const globalErrorHandler = require('./controllers/errorController');
-const routes = require('./routes');
+const mountRoutes = require('./routes');
 
 // Start express app
 const app = express();
@@ -73,12 +73,17 @@ app.use((req, res, next) => {
   next();
 });
 
-// Routes
-routes(app);
+// Mount Routes
+mountRoutes(app);
 
-/*app.all('*', (req, res, next) => {
-  next(new ApiError(`Can't find ${req.originalUrl} on this server!`, 404));
-});*/
+app.all('*', (req, res, next) => {
+  next(
+    new ApiError(
+      `Can't find this route ${req.originalUrl} in this server !`,
+      404
+    )
+  );
+});
 
 // Global error handling middleware for express
 app.use(globalErrorHandler);

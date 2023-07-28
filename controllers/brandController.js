@@ -3,7 +3,7 @@ const asyncHandler = require('express-async-handler');
 const { v4: uuidv4 } = require('uuid');
 const Brand = require('../model/brandModel');
 const ApiFeatures = require('../utils/apiFeatures');
-const ApiError = require('../utils/appError');
+const ApiError = require('../utils/apiError');
 const uploadImageController = require('./uploadImageController');
 
 exports.uploadBrandImage = uploadImageController.uploadSingleImage('image');

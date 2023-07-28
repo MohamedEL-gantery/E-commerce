@@ -4,7 +4,7 @@ const asyncHandler = require('express-async-handler');
 const { v4: uuidv4 } = require('uuid');
 const Product = require('../model/productModel');
 const ApiFeatures = require('../utils/apiFeatures');
-const ApiError = require('../utils/appError');
+const ApiError = require('../utils/apiError');
 const uploadImageController = require('./uploadImageController');
 
 exports.uploadProductPhoto = uploadImageController.uploadMixImages([

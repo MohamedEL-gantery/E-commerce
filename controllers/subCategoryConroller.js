@@ -1,7 +1,7 @@
 const asyncHandler = require('express-async-handler');
 const SubCategory = require('../model/subCategoryModel');
 const ApiFeatures = require('../utils/apiFeatures');
-const ApiError = require('../utils/appError');
+const ApiError = require('../utils/apiError');
 
 exports.createSubCategory = asyncHandler(async (req, res, next) => {
   //Allow nested routes

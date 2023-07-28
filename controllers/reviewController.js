@@ -4,7 +4,7 @@ const asyncHandler = require('express-async-handler');
 const User = require('../model/userModel');
 const Review = require('../model/reviewModel');
 const ApiFeatures = require('../utils/apiFeatures');
-const ApiError = require('../utils/appError');
+const ApiError = require('../utils/apiError');
 
 exports.owner = asyncHandler(async (req, res, next) => {
   // 1) Getting token and check of it's there
