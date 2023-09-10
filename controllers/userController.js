@@ -1,8 +1,8 @@
 const asyncHandler = require('express-async-handler');
 const sharp = require('sharp');
 const User = require('../model/userModel');
-const ApiFeatures = require('../utils/apiFeatures');
 const ApiError = require('../utils/apiError');
+const ApiFeatures = require('../utils/apiFeatures');
 const uploadImageController = require('./uploadImageController');
 
 exports.getme = (req, res, next) => {
@@ -113,8 +113,6 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
   if (!updateUser) {
     return next(new ApiError('No user found for this id', 404));
   }
-
-  await updateUser.save();
 
   res.status(200).json({
     status: 'success',

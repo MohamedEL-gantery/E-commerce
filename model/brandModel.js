@@ -10,9 +10,7 @@ const brandSchema = new mongoose.Schema(
       minlength: [3, 'Too short Brand name'],
       maxlength: [32, 'Too long Brand name'],
     },
-    slug: {
-      type: String,
-    },
+    slug: String,
     image: String,
   },
   { timestamps: true }

@@ -1,11 +1,12 @@
 const asyncHandler = require('express-async-handler');
 const SubCategory = require('../model/subCategoryModel');
-const ApiFeatures = require('../utils/apiFeatures');
 const ApiError = require('../utils/apiError');
+const ApiFeatures = require('../utils/apiFeatures');
 
 exports.createSubCategory = asyncHandler(async (req, res, next) => {
   //Allow nested routes
   if (!req.body.category) req.body.category = req.params.categoryId;
+
   const newSubCategory = await SubCategory.create(req.body);
 
   res.status(201).json({
@@ -64,8 +65,6 @@ exports.updateSubCategory = asyncHandler(async (req, res, next) => {
   if (!subCategory) {
     return next(new ApiError('No SubCategory for this id', 404));
   }
-
-  await subCategory.save();
 
   res.status(200).json({
     status: 'success',

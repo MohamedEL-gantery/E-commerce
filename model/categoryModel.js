@@ -10,12 +10,8 @@ const categorySchema = new mongoose.Schema(
       minlength: [3, 'Too short category name'],
       maxlength: [32, 'Too long category name'],
     },
-    slug: {
-      type: String,
-    },
-    image: {
-      type: String,
-    },
+    slug: String,
+    image: String,
   },
   { timestamps: true }
 );

@@ -12,9 +12,7 @@ const productSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
-    slug: {
-      type: String,
-    },
+    slug: String,
     quantity: {
       type: Number,
       required: [true, 'Product must have a quantity '],
@@ -23,9 +21,7 @@ const productSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-    images: {
-      type: [String],
-    },
+    images: [String],
     imageCover: {
       type: String,
       required: [true, 'Product must have a image cover'],
@@ -49,10 +45,10 @@ const productSchema = new mongoose.Schema(
       min: [1, 'Rating must be above 1.0'],
       max: [5, 'Rating must be below 5.0'],
       set: (val) => Math.round(val * 10) / 10,
+      default: 1,
     },
     ratingsQuantity: {
       type: Number,
-      default: 0,
     },
     category: {
       type: mongoose.Schema.ObjectId,

@@ -1,9 +1,9 @@
-const sharp = require('sharp');
 const asyncHandler = require('express-async-handler');
+const sharp = require('sharp');
 const { v4: uuidv4 } = require('uuid');
 const Category = require('../model/categoryModel');
-const ApiFeatures = require('../utils/apiFeatures');
 const ApiError = require('../utils/apiError');
+const ApiFeatures = require('../utils/apiFeatures');
 const uploadImageController = require('./uploadImageController');
 
 exports.uploadCategoryImage = uploadImageController.uploadSingleImage('image');
@@ -76,8 +76,6 @@ exports.updateCategory = asyncHandler(async (req, res, next) => {
   if (!category) {
     return next(new ApiError('No Category for this id', 404));
   }
-
-  await category.save();
 
   res.status(200).json({
     status: 'success',

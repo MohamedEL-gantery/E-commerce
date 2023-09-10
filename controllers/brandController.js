@@ -1,9 +1,9 @@
-const sharp = require('sharp');
 const asyncHandler = require('express-async-handler');
+const sharp = require('sharp');
 const { v4: uuidv4 } = require('uuid');
 const Brand = require('../model/brandModel');
-const ApiFeatures = require('../utils/apiFeatures');
 const ApiError = require('../utils/apiError');
+const ApiFeatures = require('../utils/apiFeatures');
 const uploadImageController = require('./uploadImageController');
 
 exports.uploadBrandImage = uploadImageController.uploadSingleImage('image');
@@ -76,8 +76,6 @@ exports.updateBrand = asyncHandler(async (req, res, next) => {
   if (!brand) {
     return next(new ApiError('No Brand for this id', 404));
   }
-
-  await brand.save();
 
   res.status(200).json({
     status: 'success',

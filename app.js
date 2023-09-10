@@ -30,13 +30,6 @@ app.use(compression());
 // Set security HTTP headers
 app.use(helmet());
 
-// Checkout webhook
-app.post(
-  '/webhook-checkout',
-  express.raw({ type: 'application/json' }),
-  webhookCheckout
-);
-
 // development logging
 if (process.env.NODE_ENV === 'development') {
   //dev env
@@ -51,6 +44,13 @@ const limiter = rateLimit({
 });
 // Apply the reat limiting middleware to all request
 app.use('/api', limiter);
+
+// Checkout webhook
+app.post(
+  '/webhook-checkout',
+  express.raw({ type: 'application/json' }),
+  webhookCheckout
+);
 
 // Body parser, reading data from body into req.body
 app.use(express.json({ limit: '10kb' }));

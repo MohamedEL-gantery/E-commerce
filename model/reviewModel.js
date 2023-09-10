@@ -26,9 +26,6 @@ const reviewSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-    // to enable virtual populate
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true },
   }
 );
 

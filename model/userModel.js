@@ -33,9 +33,7 @@ const userSchema = new mongoose.Schema({
       message: 'Password Are Not The Same',
     },
   },
-  slug: {
-    type: String,
-  },
+  slug: String,
   phone: {
     type: String,
     validate: [validator.isMobilePhone, 'Please Provide A Vaild Phone'],
@@ -44,16 +42,12 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: 'default.jpg',
   },
-  age: {
-    type: Number,
-  },
+  age: Number,
   birthDate: {
     type: Date,
     validate: [validator.isDate, 'Please Provide A Valid BirthDate'],
   },
-  location: {
-    type: String,
-  },
+  location: String,
   gender: {
     type: String,
     enum: {
@@ -138,7 +132,7 @@ userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
   return false;
 };
 
-userSchema.methods.createPasswordResetCode = function () {
+userSchema.methods.generateVerificationCode = function () {
   const restCode = Math.floor(1000 + Math.random() * 9000).toString();
   this.passwordResetCode = crypto
     .createHash('sha256')

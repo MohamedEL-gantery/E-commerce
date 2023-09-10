@@ -5,11 +5,15 @@ const userController = require('../controllers/userController');
 const router = express.Router();
 
 router.post('/signup', authController.signUp);
+
 router.post('/login', authController.login);
+
 router.get('/logout', authController.logout);
 
 router.post('/forgetpassword', authController.forgetPassword);
+
 router.post('/verifyresetcode', authController.verifyPasswordResetCode);
+
 router.patch('/resetpassword', authController.resetPassword);
 
 // Protect all routes after this middleware

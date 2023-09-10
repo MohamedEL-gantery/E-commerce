@@ -1,10 +1,10 @@
+const asyncHandler = require('express-async-handler');
 const { Promise } = require('mongoose');
 const sharp = require('sharp');
-const asyncHandler = require('express-async-handler');
 const { v4: uuidv4 } = require('uuid');
 const Product = require('../model/productModel');
-const ApiFeatures = require('../utils/apiFeatures');
 const ApiError = require('../utils/apiError');
+const ApiFeatures = require('../utils/apiFeatures');
 const uploadImageController = require('./uploadImageController');
 
 exports.uploadProductPhoto = uploadImageController.uploadMixImages([
@@ -97,8 +97,6 @@ exports.updateProduct = asyncHandler(async (req, res, next) => {
   if (!product) {
     return next(new ApiError('No product for this id', 404));
   }
-
-  await product.save();
 
   res.status(200).json({
     status: 'success',
