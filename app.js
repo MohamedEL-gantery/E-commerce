@@ -42,7 +42,7 @@ const limiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 60 minutes
   message: 'Too many requests from this IP, please try again in an hour!',
 });
-// Apply the reat limiting middleware to all request
+// limiting middleware to all request
 app.use('/api', limiter);
 
 // Checkout webhook
@@ -75,11 +75,6 @@ app.use(
     ],
   })
 );
-
-app.use((req, res, next) => {
-  req.requestTime = new Date().toISOString();
-  next();
-});
 
 // Mount Routes
 mountRoutes(app);
