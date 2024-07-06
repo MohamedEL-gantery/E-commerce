@@ -1,3 +1,9 @@
+![Node.js](https://img.shields.io/badge/Node.js-18.17.0-green?logo=node.js)
+
+![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?logo=javascript&logoColor=yellow)
+
+![Mongoose](https://img.shields.io/badge/Mongoose-6.0.13-880000?logo=mongoose&logoColor=red)
+
 # E-commerce
 
 Welcome to the E-commerce App! This README provides instructions on installation, running the application, and an overview of its features and technologies.
@@ -6,16 +12,39 @@ Welcome to the E-commerce App! This README provides instructions on installation
 
 To use this project, follow the instructions below:
 
-1. Clone the repository.
-2. Install the dependencies using `npm install`.
+1. Clone the repository:
+
+```bash
+
+git clone https://github.com/MohamedEL-gantery/E-commerce.git
+
+```
+
+2. Install the project dependencies by running:
+
+```bash
+
+npm install
+
+```
 
 ## Running the Application
 
 In the project directory, you can run:
 
-- `npm start` or `npm run start:dev` to run the app in development mode.
-- `npm start` or `npm run start:prod` to run the app in production mode.
+- `npm run start:dev` to run the app in development mode.
+- `npm run start:prod` to run the app in production mode.
 - The app will be available at [https://store-bg28.onrender.com/](https://store-bg28.onrender.com/).
+
+## View API Documentation
+
+- API Documentation: Document APIs using Postman.
+
+```bash
+
+https://interstellar-space-565319.postman.co/workspace/Store~bdcb1599-4b27-4029-976b-6768ad51df76/documentation/23762643-b3fffec8-0bc6-470a-aad6-d0050c128488
+
+```
 
 ## Introduction
 
@@ -67,7 +96,12 @@ The E-commerce App is built using the following technologies:
 
 The following development tools were used in this project:
 
-- VSCode: A lightweight and powerful code editor with features like IntelliSense, debugging, and Git integration.
-- Postman: A popular API testing tool for testing and debugging API endpoints.
+![VSCode](https://img.shields.io/badge/VSCode-1.80.0-007ACC?logo=visual-studio-code&logoColor=white)
+
+- A lightweight and powerful code editor that provides a great development experience with features like IntelliSense, debugging, and Git integration.
+
+![Postman](https://img.shields.io/badge/Postman-10.15.0-FF6C37?logo=postman&logoColor=white)
+
+- A popular API testing tool that allows you to test and debug your API endpoints easily.
 
 Please note that the recommended Node.js version for this project is 18.17.0.
